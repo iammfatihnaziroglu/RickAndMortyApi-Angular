@@ -12,12 +12,33 @@
   </div>
 
   <div class="character-grid">
-    <div *ngFor="let character of characters" class="character-card">
-      <img [src]="character.image" [alt]="character.name">
+    <div *ngFor="let character of characters" class="character-card" (click)="showCharacterDetails(character.id)">
+      <img class="character-img" [src]="character.image" [alt]="character.name">
       <div class="character-info">
         <h3>{{character.name}}</h3>
         <p>Status: {{character.status}}</p>
         <p>Species: {{character.species}}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div *ngIf="selectedCharacter" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closeModal()">&times;</button>
+      
+      <img class="modal-content" [src]="selectedCharacter.image" [alt]="selectedCharacter.name">
+      <h2>{{selectedCharacter.name}}</h2>
+      
+      <div class="details-grid">
+        <div><strong>Status:</strong> {{selectedCharacter.status}}</div>
+        <div><strong>Species:</strong> {{selectedCharacter.species}}</div>
+        <div><strong>Type:</strong> {{selectedCharacter.type || 'Unknown'}}</div>
+        <div><strong>Gender:</strong> {{selectedCharacter.gender}}</div>
+        <div><strong>Origin:</strong> {{selectedCharacter.origin.name}}</div>
+        <div><strong>Location:</strong> {{selectedCharacter.location.name}}</div>
+        <div><strong>Episodes:</strong> {{selectedCharacter.episode.length}}</div>
+        <div><strong>Created:</strong> {{selectedCharacter.created | date}}</div>
       </div>
     </div>
   </div>

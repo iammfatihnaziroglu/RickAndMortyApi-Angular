@@ -7,7 +7,19 @@ interface Character {
   name: string;
   status: string;
   species: string;
+  type: string;
+  gender: string;
+  origin: {
+    name: string;
+    url: string;
+  };
+  location: {
+    name: string;
+    url: string;
+  };
   image: string;
+  episode: string[];
+  created: string;
 }
 
 @Component({
@@ -23,6 +35,7 @@ export class AppComponent {
   characters: Character[] = [];
   currentPage = 1;
   totalPages = 1;
+  selectedCharacter: Character | null = null;
 
   constructor(private http: HttpClient) {
     this.loadCharacters();
@@ -45,5 +58,17 @@ export class AppComponent {
     if (newPage >= 1 && newPage <= this.totalPages) {
       this.loadCharacters(newPage);
     }
+  }
+
+  showCharacterDetails(id: number) {
+    this.http.get<Character>(`https://rickandmortyapi.com/api/character/${id}`)
+      .subscribe({
+        next: (char) => this.selectedCharacter = char,
+        error: (err) => console.error('Detay hatası:', err)
+      });
+  }
+
+  closeModal() {
+    this.selectedCharacter = null;
   }
 }
