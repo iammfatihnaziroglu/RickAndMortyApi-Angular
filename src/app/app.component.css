@@ -78,9 +78,8 @@ button:disabled {
 
 
 .close-btn {
-  position: relative;
-  bottom: 0.5rem;
-  left: 35.5rem;
+  display: flex;
+  justify-self: end;
   font-size: 2rem;
   background: none;
   color: rgb(85, 2, 2);
