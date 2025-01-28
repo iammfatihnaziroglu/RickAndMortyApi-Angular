@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { FiltersComponent } from "./filters/filters.component";
+import { of, catchError, switchMap } from 'rxjs';
 
 interface Character {
   id: number;
@@ -26,8 +28,9 @@ interface Character {
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule
-  ],
+    CommonModule,
+    FiltersComponent
+],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -36,22 +39,74 @@ export class AppComponent {
   currentPage = 1;
   totalPages = 1;
   selectedCharacter: Character | null = null;
+  errorMessage: string | null = null;
 
   constructor(private http: HttpClient) {
     this.loadCharacters();
   }
 
-  loadCharacters(page: number = 1) {
-    const apiUrl = `https://rickandmortyapi.com/api/character?page=${page}`;
-    
-    this.http.get<any>(apiUrl).subscribe({
-      next: (response) => {
+  loadCharacters(page: number = 1, filters: any = {}) {
+    this.errorMessage = null;
+    this.characters = [];
+
+    const handleError = (err: any) => {
+      this.errorMessage = this.getErrorMessage(err.status);
+      this.characters = [];
+      this.totalPages = 1;
+      return of(null);
+    };
+
+    if (filters.episode) {
+      this.http.get<any>(`https://rickandmortyapi.com/api/episode/${filters.episode}`).pipe(
+        catchError(handleError),
+        switchMap(episode => {
+          if (!episode) return of(null);
+          
+          const characterIds = episode.characters
+            .map((url: string) => url.split('/').pop())
+            .join(',');
+          
+          return this.http.get<any>(`https://rickandmortyapi.com/api/character/${characterIds}`).pipe(
+            catchError(handleError)
+          );
+        })
+      ).subscribe(response => {
+        if (!response) return;
+        
+        this.characters = Array.isArray(response) ? response : [response];
+        this.totalPages = 1;
+        this.currentPage = 1;
+        if (this.characters.length === 0) {
+          this.errorMessage = 'Bu bölümde karakter bulunamadı';
+        }
+      });
+    } else {
+      let params = new HttpParams().set('page', page.toString());
+      Object.keys(filters).forEach(key => {
+        if (filters[key]) params = params.set(key, filters[key]);
+      });
+
+      this.http.get<any>(`https://rickandmortyapi.com/api/character`, { params }).pipe(
+        catchError(handleError)
+      ).subscribe(response => {
+        if (!response) return;
+        
         this.characters = response.results;
         this.totalPages = response.info.pages;
         this.currentPage = page;
-      },
-      error: (err) => console.error('API Hatası:', err)
-    });
+        if (this.characters.length === 0) {
+          this.errorMessage = 'Bu filtrelerle eşleşen karakter bulunamadı';
+        }
+      });
+    }
+  }
+
+  private getErrorMessage(status: number): string {
+    switch(status) {
+      case 404: return 'Aradığınız kriterlerde sonuç bulunamadı';
+      case 500: return 'Sunucu hatası, lütfen daha sonra tekrar deneyin';
+      default: return 'Beklenmedik bir hata oluştu';
+    }
   }
 
   changePage(newPage: number) {
@@ -70,5 +125,9 @@ export class AppComponent {
 
   closeModal() {
     this.selectedCharacter = null;
+  }
+
+  onFilterChange(filters: any) {
+    this.loadCharacters(1, filters);
   }
 }

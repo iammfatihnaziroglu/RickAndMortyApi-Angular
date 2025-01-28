@@ -11,6 +11,8 @@
     </button>
   </div>
 
+  <app-filters (filterChange)="onFilterChange($event)"></app-filters>
+
   <div class="character-grid">
     <div *ngFor="let character of characters" class="character-card" (click)="showCharacterDetails(character.id)">
       <img class="character-img" [src]="character.image" [alt]="character.name">
@@ -22,7 +24,11 @@
     </div>
   </div>
 
-  <!-- Modal -->
+  <div *ngIf="errorMessage || characters.length === 0" class="no-results">
+    <h3>⚠️ {{errorMessage || 'No results found'}}</h3>
+    <p>Please check the filters or perform a different search!</p>
+  </div>
+
   <div *ngIf="selectedCharacter" class="modal-overlay" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <button class="close-btn" (click)="closeModal()">&times;</button>

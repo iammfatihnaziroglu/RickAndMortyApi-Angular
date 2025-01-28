@@ -93,3 +93,18 @@ button:disabled {
   gap: 1rem;
   margin-top: 1rem;
 }
+
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  background: #790404f3;
+  border: 3px solid #5a171d;
+  border-radius: 8px;
+  margin-top: 2rem;
+  color: #e0e0e0;
+}
+
+.no-results h3 {
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
