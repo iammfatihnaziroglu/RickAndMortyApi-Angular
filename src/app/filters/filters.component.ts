@@ -45,4 +45,16 @@ export class FiltersComponent {
       this.filterChange.emit(values);
     });
   }
+
+  public resetFilters() {
+    this.filterForm.reset({
+      name: '',
+      status: '',
+      species: '',
+      type: '',
+      gender: '',
+      episode: ''
+    });
+    this.filterChange.emit(this.filterForm.value);
+  }
 }

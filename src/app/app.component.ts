@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { FiltersComponent } from "./filters/filters.component";
 import { of, catchError, switchMap } from 'rxjs';
+import { Router } from '@angular/router';
 
 interface Character {
   id: number;
@@ -35,13 +36,18 @@ interface Character {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  @ViewChild(FiltersComponent) filtersComponent!: FiltersComponent;
+
   characters: Character[] = [];
   currentPage = 1;
   totalPages = 1;
   selectedCharacter: Character | null = null;
   errorMessage: string | null = null;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {
     this.loadCharacters();
   }
 
@@ -77,7 +83,7 @@ export class AppComponent {
         this.totalPages = 1;
         this.currentPage = 1;
         if (this.characters.length === 0) {
-          this.errorMessage = 'Bu bölümde karakter bulunamadı';
+          this.errorMessage = 'No characters found in this section';
         }
       });
     } else {
@@ -103,9 +109,9 @@ export class AppComponent {
 
   private getErrorMessage(status: number): string {
     switch(status) {
-      case 404: return 'Aradığınız kriterlerde sonuç bulunamadı';
-      case 500: return 'Sunucu hatası, lütfen daha sonra tekrar deneyin';
-      default: return 'Beklenmedik bir hata oluştu';
+      case 404: return 'No results found for your search/filter criteria';
+      case 500: return 'Server error, please try again later';
+      default: return 'An unexpected error occurred';
     }
   }
 
@@ -129,5 +135,13 @@ export class AppComponent {
 
   onFilterChange(filters: any) {
     this.loadCharacters(1, filters);
+  }
+
+  resetToHome() {
+    this.router.navigate(['/']).then(() => {
+      this.filtersComponent.resetFilters();
+      this.currentPage = 1;
+      this.loadCharacters(1, {});
+    });
   }
 }
