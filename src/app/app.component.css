@@ -95,7 +95,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
   margin: 3rem 0;
   padding: 1rem;
 }
@@ -105,7 +105,7 @@
   padding: 0.7rem 1.2rem;
   border: none;
   border-radius: 8px;
-  background: #42b983;
+  background: #42abb9;
   color: white;
   font-weight: 500;
   font-size: 0.9rem;
@@ -122,7 +122,7 @@
 }
 
 .pagination button:hover:not(:disabled) {
-  background: #3aa876;
+  background: #42abb9;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -136,17 +136,30 @@
 /* Mobil için pagination düzenlemesi */
 @media (max-width: 480px) {
   .pagination {
-    gap: 1rem;
-    margin: 2rem 0;
-  }
-
-  .pagination button {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.8rem;
+    padding: 0.8rem;
+    margin-bottom: 15px;
   }
 
   .pagination span {
-    font-size: 0.9rem;
+    order: 0;
+    width: auto;
+    margin: 0;
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+
+  .pagination button {
+    width: auto;
+    flex: 1;
+    min-width: 100px;
+    padding: 0.8rem 0.8rem;
+  }
+
+  .pagination button:first-child {
+    order: -1;
   }
 }
 
@@ -392,7 +405,6 @@
     font-size: 1rem;
   }
 }
-
 
 .filters-container {
   margin: 1rem;

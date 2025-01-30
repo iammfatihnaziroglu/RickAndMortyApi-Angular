@@ -1,19 +1,7 @@
 <div class="container">
   <h1 class="clickable-title" (click)="resetToHome()">Rick and Morty App</h1>
   
-  <div class="pagination">
-    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
-      Previous
-    </button>
-    <span>Page {{currentPage}} of {{totalPages}}</span>
-    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
-      Next
-    </button>
-  </div>
-
   <app-navigation (tabSelected)="onTabSelected($event)"></app-navigation>
-
-
 
   <app-location-filters *ngIf="currentView === 'locations'" (filterChange)="onLocationFilterChange($event)"></app-location-filters>
 
@@ -132,5 +120,18 @@
       </div>
     </div>
   </ng-container>
+
+  <!-- Sayfalama en alta -->
+  <div class="pagination-footer">
+    <div class="pagination">
+      <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+        Previous
+      </button>
+      <span>Page {{currentPage}} of {{totalPages}}</span>
+      <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+        Next
+      </button>
+    </div>
+  </div>
 </div>
 
