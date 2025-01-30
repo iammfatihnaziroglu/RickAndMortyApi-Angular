@@ -173,6 +173,7 @@
   position: relative;
   animation: modalEnter 0.3s ease;
   text-align: center;
+  touch-action: manipulation;
 }
 
 @keyframes modalEnter {
@@ -203,13 +204,13 @@
 }
 
 .modal-image {
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   object-fit: cover;
-  margin: 0 auto 2rem;
-  border: 4px solid #42b983;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  margin: 0 auto 1rem;
+  display: block;
+  border: 3px solid #42b983;
 }
 
 @media (max-width: 480px) {
@@ -225,6 +226,26 @@
   .character-card {
     margin: 0;
     width: 100%;
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: 1rem;
+  }
+
+  .modal-image {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 0.5rem;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .character-card {
+    margin: 0 10px;
   }
 }
 
@@ -337,31 +358,10 @@
   z-index: 1000;
 }
 
-.modal-content {
-  background: #fff;
-  border-radius: 15px;
-  padding: 2rem;
-  width: 90%;
-  max-width: 500px;
-  position: relative;
-  animation: modalOpen 0.3s ease;
-}
-
 .modal-header {
   border-bottom: 2px solid #42b983;
   padding-bottom: 1rem;
   margin-bottom: 1.5rem;
-}
-
-.close-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 1.8rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #666;
 }
 
 .detail-item {
@@ -381,11 +381,6 @@
   font-weight: 600;
   margin-right: 0.5rem;
   color: #2c3e50;
-}
-
-@keyframes modalOpen {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
 }
 
 @media (max-width: 768px) {
