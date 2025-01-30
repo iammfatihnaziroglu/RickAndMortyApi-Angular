@@ -37,10 +37,13 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   cursor: pointer;
+  border: 2px solid #e9ecef;
 }
 
 .character-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(66, 185, 131, 0.15);
+  border-color: #42b983;
 }
 
 .character-image {
@@ -70,17 +73,21 @@
 .no-results {
   text-align: center;
   padding: 2rem;
-  background: #f8f9fa;
-  border-radius: 12px;
-  margin: 2rem 0;
-  color: #6c757d;
-  border: 1px solid #e9ecef;
+  margin: 2rem auto;
+  max-width: 600px;
+  background: #fff3cd;
+  border-radius: 10px;
+  border: 1px solid #ffeeba;
 }
 
 .no-results h3 {
+  color: #856404;
   margin-bottom: 1rem;
-  color: #2c3e50;
-  font-size: 1.2rem;
+}
+
+.no-results p {
+  color: #666;
+  line-height: 1.6;
 }
 
 /* Pagination */
@@ -241,4 +248,152 @@
   display: block;
   margin-bottom: 0.3rem;
   font-size: 0.9rem;
+}
+
+.location-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.location-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.location-card:hover {
+  transform: translateY(-5px);
+}
+
+.location-card h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.3rem;
+  color: #2c3e50;
+  border-bottom: 2px solid #a7b942;
+  padding-bottom: 0.5rem;
+  text-transform: capitalize;
+}
+
+.location-card p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+.location-card p:last-child {
+  margin-top: 1rem;
+  text-transform: capitalize;
+}
+
+.location-card i {
+  margin: 0.5rem 0; 
+  color: #42b983;
+  text-transform: capitalize;
+}
+
+
+/* Responsive düzenlemeler */
+@media (max-width: 768px) {
+  .location-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .location-card {
+    padding: 1.2rem;
+  }
+
+  .location-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .location-card p {
+    font-size: 0.95rem;
+  }
+
+  .no-results {
+    margin: 1rem;
+    padding: 1rem;
+  }
+}
+
+/* Modal Stilleri */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 15px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  animation: modalOpen 0.3s ease;
+}
+
+.modal-header {
+  border-bottom: 2px solid #42b983;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  font-size: 1.1rem;
+  text-transform: capitalize;
+}
+
+.detail-item i {
+  margin-right: 0.8rem;
+  color: #b98542;
+}
+
+.detail-label {
+  font-weight: 600;
+  margin-right: 0.5rem;
+  color: #2c3e50;
+}
+
+@keyframes modalOpen {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 1.5rem;
+  }
+  
+  .detail-item {
+    font-size: 1rem;
+  }
 }

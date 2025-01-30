@@ -1,37 +1,70 @@
-<form [formGroup]="filterForm" class="filter-form">
-    <div class="form-group">
-      <input type="text" formControlName="name" placeholder="Character Name">
+<div class="filters-container">
+  <h3 class="filters-title">Character Filters</h3>
+  
+  <form [formGroup]="filterForm" class="filters-form">
+    <div class="input-group">
+      <label for="name" class="filter-label">
+        <i class="fas fa-user"></i>
+        Name
+      </label>
+      <input 
+        id="Name"
+        type="text" 
+        formControlName="name" 
+        placeholder="Rick, Morty..."
+      >
     </div>
-    
-    <div class="form-group">
-      <select formControlName="status">
-        <option *ngFor="let opt of statusOptions" [value]="opt.value">
-          {{opt.display}}
+
+    <div class="input-group">
+      <label for="status" class="filter-label">
+        <i class="fas fa-heartbeat"></i>
+        Status
+      </label>
+      <select id="status" formControlName="status">
+        <option *ngFor="let option of statusOptions" [value]="option.value">
+          {{ option.display }}
         </option>
       </select>
     </div>
-  
-    <div class="form-group">
-      <input type="text" formControlName="species" placeholder="Species">
-    </div>
-  
-    <div class="form-group">
-      <input type="text" formControlName="type" placeholder="Type">
-    </div>
-  
-    <div class="form-group">
-      <select formControlName="gender">
-        <option *ngFor="let opt of genderOptions" [value]="opt.value">
-          {{opt.display}}
+
+    <div class="input-group">
+      <label for="gender" class="filter-label">
+        <i class="fas fa-venus-mars"></i>
+        Gender
+      </label>
+      <select id="gender" formControlName="gender">
+        <option *ngFor="let option of genderOptions" [value]="option.value">
+          {{ option.display }}
         </option>
       </select>
     </div>
-  
-    <div class="form-group">
-      <button type="button" 
-              class="clear-btn"
-              (click)="resetFilters()">
-        🗑️ Clear Filters
+
+    <div class="input-group">
+      <label for="species" class="filter-label">
+        <i class="fas fa-dna"></i>
+        Species
+      </label>
+      <input 
+        id="species"
+        type="text" 
+        formControlName="species" 
+        placeholder="Human, Alien..."
+      >
+    </div>
+
+    <div class="button-group">
+      <button 
+        type="button" 
+        class="filter-button reset"
+        (click)="resetFilters()">
+        <i class="fas fa-undo"></i>
+        Reset
       </button>
     </div>
   </form>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="fas fa-exclamation-circle"></i>
+    {{ errorMessage }}
+  </div>
+</div>

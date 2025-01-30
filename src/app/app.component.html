@@ -11,45 +11,111 @@
     </button>
   </div>
 
-  <app-filters (filterChange)="onFilterChange($event)"></app-filters>
+  <app-navigation (tabSelected)="onTabSelected($event)"></app-navigation>
 
-  <div class="character-grid">
-    <div *ngFor="let character of characters" class="character-card" (click)="showCharacterDetails(character.id)">
-      <img class="character-img" [src]="character.image" [alt]="character.name">
-      <div class="character-info">
-        <h3>{{character.name}}</h3>
-        <p>Status: {{character.status}}</p>
-        <p>Species: {{character.species}}</p>
+
+  <!-- Filters -->
+  <app-filters *ngIf="currentView === 'characters'" (filterChange)="onFilterChange($event)"></app-filters>
+  <app-location-filters *ngIf="currentView === 'locations'" (filterChange)="onLocationFilterChange($event)"></app-location-filters>
+
+  <ng-container [ngSwitch]="currentView">
+    <div *ngSwitchCase="'characters'">
+      <div class="character-grid">
+        <div *ngFor="let character of characters" class="character-card" (click)="showCharacterDetails(character.id)">
+          <img class="character-img" [src]="character.image" [alt]="character.name">
+          <div class="character-info">
+            <h3>{{character.name}}</h3>
+            <p>Status: {{character.status}}</p>
+            <p>Species: {{character.species}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage || characters.length === 0" class="no-results">
+        <h3>⚠️ {{errorMessage || 'No results found'}}</h3>
+        <p>Oh man, oh geez... 
+          <br>
+          Please check the filters or perform a different search Morty, Geez.</p>
+      </div>
+
+      <div *ngIf="selectedCharacter" class="modal-overlay" (click)="closeModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+          <button class="close-btn" (click)="selectedCharacter = null">&times;</button>
+          
+          <img [src]="selectedCharacter.image" 
+               [alt]="selectedCharacter.name"
+               class="modal-image">
+          <h2>{{selectedCharacter.name}}</h2>
+          
+          <div class="details-grid">
+            <div><strong>Status:</strong> {{selectedCharacter.status}}</div>
+            <div><strong>Species:</strong> {{selectedCharacter.species}}</div>
+            <div><strong>Type:</strong> {{selectedCharacter.type || 'Unknown'}}</div>
+            <div><strong>Gender:</strong> {{selectedCharacter.gender}}</div>
+            <div><strong>Origin:</strong> {{selectedCharacter.origin.name}}</div>
+            <div><strong>Location:</strong> {{selectedCharacter.location.name}}</div>
+            <div><strong>Episodes:</strong> {{selectedCharacter.episode.length}}</div>
+            <div><strong>Created:</strong> {{selectedCharacter.created | date}}</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div *ngIf="errorMessage || characters.length === 0" class="no-results">
-    <h3>⚠️ {{errorMessage || 'No results found'}}</h3>
-    <p>Oh man, oh geez... 
-      <br>
-      Please check the filters or perform a different search, Geez.</p>
-  </div>
+    <div *ngSwitchCase="'locations'">
+      <div class="location-grid">
+        <div *ngFor="let location of locations" 
+             class="location-card"
+             (click)="showLocationDetails(location.id)">
+          <h3>{{ location.name }}</h3>
+          <p><i class="fas fa-globe"></i> {{ location.type || 'Unknown' }}</p>
+          <p><i class="fas fa-cube"></i> {{ location.dimension || 'Unknown' }}</p>
+        </div>
+      </div>
 
-  <div *ngIf="selectedCharacter" class="modal-overlay" (click)="closeModal()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <button class="close-btn" (click)="selectedCharacter = null">&times;</button>
-      
-      <img [src]="selectedCharacter.image" 
-           [alt]="selectedCharacter.name"
-           class="modal-image">
-      <h2>{{selectedCharacter.name}}</h2>
-      
-      <div class="details-grid">
-        <div><strong>Status:</strong> {{selectedCharacter.status}}</div>
-        <div><strong>Species:</strong> {{selectedCharacter.species}}</div>
-        <div><strong>Type:</strong> {{selectedCharacter.type || 'Unknown'}}</div>
-        <div><strong>Gender:</strong> {{selectedCharacter.gender}}</div>
-        <div><strong>Origin:</strong> {{selectedCharacter.origin.name}}</div>
-        <div><strong>Location:</strong> {{selectedCharacter.location.name}}</div>
-        <div><strong>Episodes:</strong> {{selectedCharacter.episode.length}}</div>
-        <div><strong>Created:</strong> {{selectedCharacter.created | date}}</div>
+      <div *ngIf="errorMessage || locations.length === 0" class="no-results">
+        <h3>⚠️ {{errorMessage || 'No locations found'}}</h3>
+        <p>Oh man, oh geez... 
+          <br>
+          Try adjusting your filters, Morty!</p>
+      </div>
+
+      <div *ngIf="selectedLocation" class="modal-backdrop" 
+           (click)="closeModal()"
+           (touchstart)="handleTouch($event)">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>{{ selectedLocation.name }}</h2>
+            <button class="close-btn" (click)="closeModal()">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="detail-item">
+              <i class="fas fa-tag"></i>
+              <span class="detail-label">Type:</span>
+              {{ selectedLocation.type || 'Unknow' }}
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-layer-group"></i>
+              <span class="detail-label">Dimension:</span>
+              {{ selectedLocation.dimension || 'Unknow' }}
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-users"></i>
+              <span class="detail-label">Residents:</span>
+              {{ selectedLocation.residentsCount }} Character
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div *ngSwitchCase="'episodes'" class="episode-grid">
+      <div *ngFor="let episode of episodes" class="episode-card">
+        <h3>{{ episode.name }}</h3>
+        <p>Episode: {{ episode.episode }}</p>
+        <p>Air Date: {{ episode.air_date }}</p>
+        <p>Characters: {{ episode.characters.length }}</p>
+      </div>
+    </div>
+  </ng-container>
 </div>
+

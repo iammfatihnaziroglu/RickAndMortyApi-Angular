@@ -1,0 +1,60 @@
+<div class="filters-container">
+  <h3 class="filters-title">Location Filters</h3>
+  
+  <form [formGroup]="filterForm" class="filters-form">
+    <div class="input-group">
+      <label for="name" class="filter-label">
+        <i class="fas fa-map-marker-alt"></i>
+        Location Name
+      </label>
+      <input 
+        id="Name"
+        type="text" 
+        formControlName="name" 
+        placeholder=" Earth, Mars..."
+      >
+    </div>
+
+    <div class="input-group">
+      <label for="type" class="filter-label">
+        <i class="fas fa-globe"></i>
+        Location Type
+      </label>
+      <input 
+        id="type"
+        type="text" 
+        formControlName="type" 
+        placeholder=" Planet, Space Station..."
+      >
+    </div>
+
+    <div class="input-group">
+      <label for="dimension" class="filter-label">
+        <i class="fas fa-cube"></i>
+        Dimension
+      </label>
+      <input 
+        id="dimension"
+        type="text" 
+        formControlName="dimension" 
+        placeholder=" Dimension C-137..."
+      >
+    </div>
+
+    <div class="button-group">
+      <button 
+        type="button" 
+        class="filter-button reset"
+        (click)="resetFilters()">
+        <i class="fas fa-undo"></i>
+        Reset
+      </button>
+    </div>
+  </form>
+
+  <!-- Error mesajı -->
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="fas fa-exclamation-circle"></i>
+    {{ errorMessage }}
+  </div>
+</div>

@@ -2,8 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { FiltersComponent } from "./filters/filters.component";
+import { LocationFiltersComponent } from './location-filters/location-filters.component';
 import { of, catchError, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
+import { NavigationComponent } from './navigation/navigation.component';
 
 interface Character {
   id: number;
@@ -25,13 +27,31 @@ interface Character {
   created: string;
 }
 
+interface Location {
+  id: number;
+  name: string;
+  type: string;
+  dimension: string;
+  residents: string[];
+}
+
+interface Episode {
+  id: number;
+  name: string;
+  air_date: string;
+  episode: string;
+  characters: string[];
+}
+
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     CommonModule,
-    FiltersComponent
-],
+    FiltersComponent,
+    NavigationComponent,
+    LocationFiltersComponent
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -43,14 +63,19 @@ export class AppComponent {
   totalPages = 1;
   selectedCharacter: Character | null = null;
   errorMessage: string | null = null;
+  currentView: 'characters' | 'locations' | 'episodes' = 'characters';
+  locations: Location[] = [];
+  episodes: Episode[] = [];
+  selectedLocation: any = null;
 
   constructor(
     private http: HttpClient,
     private router: Router
   ) {
-    this.loadCharacters();
+    this.loadData();
   }
 
+ 
   loadCharacters(page: number = 1, filters: any = {}) {
     this.errorMessage = null;
     this.characters = [];
@@ -117,7 +142,17 @@ export class AppComponent {
 
   changePage(newPage: number) {
     if (newPage >= 1 && newPage <= this.totalPages) {
-      this.loadCharacters(newPage);
+      switch(this.currentView) {
+        case 'characters':
+          this.loadCharacters(newPage);
+          break;
+        case 'locations':
+          this.loadLocations(newPage);
+          break;
+        case 'episodes':
+          this.loadEpisodes(newPage);
+          break;
+      }
     }
   }
 
@@ -125,14 +160,10 @@ export class AppComponent {
     this.http.get<Character>(`https://rickandmortyapi.com/api/character/${id}`)
       .subscribe({
         next: (char) => this.selectedCharacter = char,
-        error: (err) => console.error('Detay hatası:', err)
       });
   }
 
-  closeModal() {
-    this.selectedCharacter = null;
-  }
-
+ 
   onFilterChange(filters: any) {
     this.loadCharacters(1, filters);
   }
@@ -143,5 +174,113 @@ export class AppComponent {
       this.currentPage = 1;
       this.loadCharacters(1, {});
     });
+  }
+
+  onTabSelected(tab: string) {
+    this.currentView = tab.toLowerCase() as 'characters' | 'locations' | 'episodes';
+    this.characters = [];
+    this.locations = [];
+    this.episodes = [];
+    this.errorMessage = null;
+    this.loadData();
+  }
+
+  private loadData() {
+    switch(this.currentView) {
+      case 'characters':
+        this.loadCharacters();
+        break;
+      case 'locations':
+        this.loadLocations();
+        break;
+      case 'episodes':
+        this.loadEpisodes();
+        break;
+    }
+  }
+
+  private handleError = (err: any) => {
+    this.errorMessage = this.getErrorMessage(err.status);
+    this.characters = [];
+    this.locations = [];
+    this.episodes = [];
+    return of(null);
+  }
+
+  private loadLocations(page: number = 1, filters: any = {}) {
+
+    let params = new HttpParams()
+      .set('page', page.toString());
+
+
+    if (filters) {
+      Object.keys(filters).forEach(key => {
+        if (filters[key] && filters[key].trim() !== '') {
+          params = params.set(key, filters[key].trim());
+        }
+      });
+    }
+
+    
+
+    this.http.get<any>(`https://rickandmortyapi.com/api/location`, { params })
+      .pipe(
+        catchError(error => {
+          return this.handleError(error);
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.locations = response.results;
+            this.totalPages = response.info.pages;
+            this.currentPage = page;
+          }
+        },
+       
+      });
+  }
+
+  private loadEpisodes(page: number = 1) {
+    this.http.get<any>(`https://rickandmortyapi.com/api/episode?page=${page}`)
+      .pipe(
+        catchError(this.handleError)
+      ).subscribe({
+        next: (res) => {
+          if(res) {
+            this.episodes = res.results;
+            this.totalPages = res.info.pages;
+          }
+        }
+      });
+  }
+
+  onLocationFilterChange(filters: any) {
+    this.currentPage = 1;
+    this.loadLocations(1, filters);
+  }
+
+  showLocationDetails(locationId: number): void {
+    this.http.get(`https://rickandmortyapi.com/api/location/${locationId}`)
+      .subscribe({
+        next: (location: any) => {
+          this.selectedLocation = {
+            ...location,
+            residentsCount: location.residents.length
+          };
+        },
+      });
+  }
+
+  closeModal(): void {
+    this.selectedLocation = null;
+  }
+
+  // Mobil dokunmatik kontrolü
+  handleTouch(event: TouchEvent): void {
+    if (this.selectedLocation) {
+      event.preventDefault();
+      this.closeModal();
+    }
   }
 }

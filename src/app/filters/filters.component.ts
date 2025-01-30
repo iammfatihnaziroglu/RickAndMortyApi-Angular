@@ -1,6 +1,7 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-filters',
@@ -12,7 +13,8 @@ import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.css']
 })
-export class FiltersComponent {
+export class FiltersComponent implements OnInit {
+  @Input() errorMessage: string = '';
   @Output() filterChange = new EventEmitter<any>();
   
   statusOptions = [
@@ -26,7 +28,7 @@ export class FiltersComponent {
     { value: '', display: 'All Genders' },
     { value: 'Female', display: '👩 Female' },
     { value: 'Male', display: '👨 Male' },
-    { value: 'Genderless', display: '⚪ Genderless' },
+    { value: 'Genderless', display: '🟣 Genderless' },
     { value: 'unknown', display: '❔ Unknown' }
   ];
 
@@ -40,10 +42,17 @@ export class FiltersComponent {
       type: [''],
       gender: ['']
     });
+  }
 
-    this.filterForm.valueChanges.subscribe(values => {
-      this.filterChange.emit(values);
-    });
+  ngOnInit() {
+    this.filterForm.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe(values => {
+        this.filterChange.emit(values);
+      });
   }
 
   public resetFilters() {
