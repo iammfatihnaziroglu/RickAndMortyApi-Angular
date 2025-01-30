@@ -14,12 +14,26 @@
   <app-navigation (tabSelected)="onTabSelected($event)"></app-navigation>
 
 
-  <!-- Filters -->
-  <app-filters *ngIf="currentView === 'characters'" (filterChange)="onFilterChange($event)"></app-filters>
+
   <app-location-filters *ngIf="currentView === 'locations'" (filterChange)="onLocationFilterChange($event)"></app-location-filters>
 
   <ng-container [ngSwitch]="currentView">
     <div *ngSwitchCase="'characters'">
+      <!-- Character Filtreler -->
+      <div class="filters-container">
+        <div class="filters-header" (click)="showCharacterFilters = !showCharacterFilters">
+          <h3>
+            <i class="fas fa-filter"></i>
+            Character Filters 
+            <i class="fas" [class.fa-chevron-down]="!showCharacterFilters" [class.fa-chevron-up]="showCharacterFilters"></i>
+          </h3>
+        </div>
+        
+        <div class="filters-content" *ngIf="showCharacterFilters">
+          <app-filters (filterChange)="applyCharacterFilters($event)"></app-filters>
+        </div>
+      </div>
+
       <div class="character-grid">
         <div *ngFor="let character of characters" class="character-card" (click)="showCharacterDetails(character.id)">
           <img class="character-img" [src]="character.image" [alt]="character.name">
@@ -62,6 +76,7 @@
     </div>
 
     <div *ngSwitchCase="'locations'">
+     
       <div class="location-grid">
         <div *ngFor="let location of locations" 
              class="location-card"

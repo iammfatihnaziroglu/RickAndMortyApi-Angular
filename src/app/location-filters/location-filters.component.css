@@ -1,9 +1,28 @@
 .filters-container {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin: 1rem;
+    border: 2px solid #42b983;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .filters-header {
+    background: #f8f9fa;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .filters-header h3 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+  }
+  
+  .filters-content {
+    padding: 1rem;
+    background: white;
   }
   
   .filters-title {
@@ -11,7 +30,7 @@
     font-size: 1.5rem;
     margin-bottom: 2rem;
     padding-bottom: 1rem;
-    border-bottom: 3px solid #42b983;
+    border-bottom: 1px solid #42b983;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
@@ -43,10 +62,11 @@
     gap: 7px;
     color: #2c3e50;
     font-size: 1.4rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: 700;
     margin-bottom: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0px;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
     transition: color 0.3s ease;
   }
   
@@ -57,6 +77,9 @@
   
   .input-group input,
   .input-group select {
+    width: 90%;
+    margin: 0 auto;
+    height: 35px;
     font-size: 0.9rem;
     padding: 0rem;
     border: 2px solid #e9ecef;
@@ -138,7 +161,7 @@
   
   @media (max-width: 768px) {
     .filters-container {
-      padding: 1rem;
+      margin: 0.5rem;
     }
   
     .filters-form {

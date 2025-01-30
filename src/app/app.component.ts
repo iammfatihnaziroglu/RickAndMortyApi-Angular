@@ -67,6 +67,9 @@ export class AppComponent {
   locations: Location[] = [];
   episodes: Episode[] = [];
   selectedLocation: any = null;
+  showFilters = false;
+  showCharacterFilters = false;
+  showLocationFilters = false;
 
   constructor(
     private http: HttpClient,
@@ -176,8 +179,10 @@ export class AppComponent {
     });
   }
 
-  onTabSelected(tab: string) {
+  onTabSelected(tab: string): void {
     this.currentView = tab.toLowerCase() as 'characters' | 'locations' | 'episodes';
+    this.showCharacterFilters = false;
+    this.showLocationFilters = false;
     this.characters = [];
     this.locations = [];
     this.episodes = [];
@@ -281,6 +286,31 @@ export class AppComponent {
     if (this.selectedLocation) {
       event.preventDefault();
       this.closeModal();
+    }
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
+  }
+
+  applyFilters(filters: any): void {
+    console.log('Uygulanan filtreler:', filters);
+    // Örnek:
+    this.currentPage = 1;
+    this.loadData();
+  }
+
+  applyCharacterFilters(filters: any): void {
+    if(this.currentView === 'characters') {
+      this.currentPage = 1;
+      this.loadCharacters(1, filters);
+    }
+  }
+
+  applyLocationFilters(filters: any): void {
+    if(this.currentView === 'locations') {
+      this.currentPage = 1;
+      this.loadLocations(1, filters);
     }
   }
 }

@@ -23,6 +23,7 @@ export class LocationFiltersComponent implements OnInit, OnDestroy {
   @Output() filterChange = new EventEmitter<any>();
   @Input() errorMessage: string = '';
   
+  showFilters = false;
   filterForm: FormGroup;
   private formSubscription?: Subscription;
 
@@ -35,13 +36,9 @@ export class LocationFiltersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-   
-    this.formSubscription = this.filterForm.valueChanges.pipe(
-      debounceTime(500), // 5 saniye bekle
-      distinctUntilChanged() 
-    ).subscribe(filters => {
-      this.filterChange.emit(filters);
-    });
+    this.filterForm.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe(values => this.filterChange.emit(values));
   }
 
   ngOnDestroy() {
@@ -55,5 +52,9 @@ export class LocationFiltersComponent implements OnInit, OnDestroy {
   resetFilters() {
     this.filterForm.reset();
     this.filterChange.emit({});
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
   }
 }

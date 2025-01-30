@@ -397,3 +397,48 @@
     font-size: 1rem;
   }
 }
+
+
+.filters-container {
+  margin: 1rem;
+  border: 2px solid #42b983;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.filters-header {
+  padding: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.filters-header h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filters-header .fa-chevron-down,
+.filters-header .fa-chevron-up {
+  font-size: 18px;
+  margin-left: 0px;
+  color: black;
+}
+
+.filters-content {
+  padding: 1rem;
+  background: white;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .filters-container {
+    margin: 0.5rem;
+  }
+}
