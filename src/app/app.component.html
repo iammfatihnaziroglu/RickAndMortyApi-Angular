@@ -111,12 +111,24 @@
       </div>
     </div>
 
-    <div *ngSwitchCase="'episodes'" class="episode-grid">
-      <div *ngFor="let episode of episodes" class="episode-card">
-        <h3>{{ episode.name }}</h3>
-        <p>Episode: {{ episode.episode }}</p>
-        <p>Air Date: {{ episode.air_date }}</p>
-        <p>Characters: {{ episode.characters.length }}</p>
+    <div *ngSwitchCase="'episodes'">
+      <app-episode-filters (filterChange)="applyEpisodeFilters($event)"></app-episode-filters>
+      
+      <div *ngIf="errorMessage || episodes.length === 0" class="no-results">
+        <h3>⚠️ {{errorMessage || 'No episodes found'}}</h3>
+        <p>Oh Geez, Morty! 
+          <br>
+          You don't know the seasons/episodes of the show you're on?!</p>
+      </div>
+
+      <div class="episode-grid">
+        <div *ngFor="let episode of episodes" class="episode-card">
+          <h3>{{ episode.name }}</h3>
+          <div class="episode-info">
+            <p><i class="fas fa-tag"></i> {{ episode.episode }}</p>
+            <p><i class="fas fa-calendar-day"></i> {{ episode.air_date }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </ng-container>

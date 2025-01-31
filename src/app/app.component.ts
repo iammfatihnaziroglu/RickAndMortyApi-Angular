@@ -6,6 +6,7 @@ import { LocationFiltersComponent } from './location-filters/location-filters.co
 import { of, catchError, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { NavigationComponent } from './navigation/navigation.component';
+import { EpisodeFiltersComponent } from './episode-filters/episode-filters.component';
 
 interface Character {
   id: number;
@@ -50,7 +51,8 @@ interface Episode {
     CommonModule,
     FiltersComponent,
     NavigationComponent,
-    LocationFiltersComponent
+    LocationFiltersComponent,
+    EpisodeFiltersComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
@@ -143,20 +145,24 @@ export class AppComponent {
     }
   }
 
-  changePage(newPage: number) {
-    if (newPage >= 1 && newPage <= this.totalPages) {
-      switch(this.currentView) {
-        case 'characters':
-          this.loadCharacters(newPage);
-          break;
-        case 'locations':
-          this.loadLocations(newPage);
-          break;
-        case 'episodes':
-          this.loadEpisodes(newPage);
-          break;
-      }
+  changePage(newPage: number): void {
+    if (newPage < 1 || newPage > this.totalPages) return;
+    
+    this.currentPage = newPage;
+    
+    switch(this.currentView) {
+      case 'characters':
+        this.loadCharacters(this.currentPage);
+        break;
+      case 'locations':
+        this.loadLocations(this.currentPage);
+        break;
+      case 'episodes':
+        this.loadEpisodes(this.currentPage);
+        break;
     }
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   showCharacterDetails(id: number) {
@@ -165,7 +171,6 @@ export class AppComponent {
         next: (char) => this.selectedCharacter = char,
       });
   }
-
  
   onFilterChange(filters: any) {
     this.loadCharacters(1, filters);
@@ -199,7 +204,7 @@ export class AppComponent {
         this.loadLocations();
         break;
       case 'episodes':
-        this.loadEpisodes();
+        this.loadEpisodes(1);
         break;
     }
   }
@@ -246,16 +251,22 @@ export class AppComponent {
       });
   }
 
-  private loadEpisodes(page: number = 1) {
-    this.http.get<any>(`https://rickandmortyapi.com/api/episode?page=${page}`)
-      .pipe(
-        catchError(this.handleError)
-      ).subscribe({
-        next: (res) => {
-          if(res) {
-            this.episodes = res.results;
-            this.totalPages = res.info.pages;
-          }
+  private loadEpisodes(page: number, filters: any = {}): void {
+    let params = new HttpParams().set('page', page.toString());
+    
+    if(filters.name) params = params.set('name', filters.name);
+    if(filters.episode) params = params.set('episode', filters.episode);
+
+    this.http.get(`https://rickandmortyapi.com/api/episode`, { params })
+      .subscribe({
+        next: (data: any) => {
+          this.episodes = data.results;
+          this.totalPages = data.info.pages;
+          this.currentPage = page;
+        },
+        error: (err) => {
+          this.episodes = [];
+          this.totalPages = 1;
         }
       });
   }
@@ -312,5 +323,35 @@ export class AppComponent {
       this.currentPage = 1;
       this.loadLocations(1, filters);
     }
+  }
+
+  applyEpisodeFilters(filters: any): void {
+    const params: any = {};
+    
+    // Name filtresi
+    if(filters.name?.trim()) params.name = filters.name.trim();
+
+    // Episode filtresi
+    if(filters.season) {
+      const seasonCode = `S${filters.season.padStart(2, '0')}`;
+      
+      if(filters.episode) {
+        params.episode = `${seasonCode}E${filters.episode.padStart(2, '0')}`;
+      } else {
+        params.episode = seasonCode; // Sadece sezon seçilirse
+      }
+    } else if(filters.episode) {
+      params.episode = `E${filters.episode.padStart(2, '0')}`;
+    }
+
+    this.loadEpisodes(1, params);
+  }
+
+  private getSeasonFromEpisode(episode: number): number {
+    return Math.floor((episode - 1) / 11) + 1;
+  }
+
+  private getEpisodeInSeason(episode: number): number {
+    return ((episode - 1) % 11) + 1;
   }
 }

@@ -1,0 +1,62 @@
+<div class="filters-container">
+  <div class="filters-header" (click)="toggleFilters()">
+    <h3>
+      <i class="fas fa-filter"></i>
+      Episode Filters
+      <i class="fas" [class.fa-chevron-down]="!showFilters" [class.fa-chevron-up]="showFilters"></i>
+    </h3>
+  </div>
+  
+  <div class="filters-content" *ngIf="showFilters">
+    <form [formGroup]="filterForm">
+      <div class="input-group">
+        <label for="name">
+          <i class="fas fa-search"></i>
+          Bölüm Adı Ara
+        </label>
+        <input 
+          id="name" 
+          type="text" 
+          formControlName="name" 
+          placeholder="Bölüm adı ara..."
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="season">
+          <i class="fas fa-tv"></i>
+          Sezon Seçin
+        </label>
+        <select 
+          id="season" 
+          formControlName="season"
+        >
+          <option value="">Tüm Sezonlar</option>
+          <option *ngFor="let s of seasons" [value]="s">{{s}}. Sezon</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="episode">
+          <i class="fas fa-film"></i>
+          Bölüm Seçin
+          <span *ngIf="!filterForm.value.season">(1-11 arası tüm sezonlarda ara)</span>
+        </label>
+        <select 
+          id="episode" 
+          formControlName="episode"
+        >
+          <option value="">Tüm Bölümler</option>
+          <option *ngFor="let e of episodes" [value]="e">
+            <span *ngIf="filterForm.value.season; else allSeasons">
+              {{e}}. Bölüm (S{{filterForm.value.season | number:'2.0'}}E{{e | number:'2.0'}})
+            </span>
+            <ng-template #allSeasons>
+              Tüm Sezonlarda {{e}}. Bölüm Ara
+            </ng-template>
+          </option>
+        </select>
+      </div>
+    </form>
+  </div>
+</div>

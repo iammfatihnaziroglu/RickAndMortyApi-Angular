@@ -461,3 +461,60 @@
     margin: 0.5rem;
   }
 }
+
+/* Bölüm Kartları */
+.episode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.episode-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.episode-card:hover {
+  transform: translateY(-3px);
+}
+
+.episode-info {
+  margin-top: 0.8rem;
+}
+
+.episode-info p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #1a1919;
+}
+
+.episode-info i {
+  color: #0c629c;
+}
+
+@media (max-width: 768px) {
+  .episode-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+  
+  .episode-card {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .episode-grid {
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+  }
+  
+  .episode-card {
+    margin: 0.3rem;
+  }
+}
