@@ -416,6 +416,42 @@
   .detail-item {
     font-size: 1rem;
   }
+
+
+  .filters-container {
+    margin: 1rem;
+    border: 2px solid #42b983;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .filters-header {
+    padding: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .filters-header h3 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 15px;
+  }
+  
+  .filters-header .fa-chevron-down,
+  .filters-header .fa-chevron-up {
+    font-size: 15px;
+    margin-left: 0px;
+    color: black;
+  }
+  
+  .filters-content {
+    padding: 1rem;
+    background: white;
+    animation: slideDown 0.3s ease;
+  }
+
 }
 
 .filters-container {
@@ -440,7 +476,6 @@
 
 .filters-header .fa-chevron-down,
 .filters-header .fa-chevron-up {
-  font-size: 18px;
   margin-left: 0px;
   color: black;
 }
