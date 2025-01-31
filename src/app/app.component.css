@@ -614,11 +614,21 @@
   }
   
   .character-card-mini {
-    aspect-ratio: 3/4;
+    aspect-ratio: 2.5/3;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .character-card-mini img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center top;
   }
   
   .character-name-overlay {
-    font-size: 0.7rem;
-    padding: 4px;
+    bottom: 0;
+    background: linear-gradient(0deg, rgba(29, 29, 29, 0.9) 30%, transparent);
+    padding: 8px 4px;
   }
 }
