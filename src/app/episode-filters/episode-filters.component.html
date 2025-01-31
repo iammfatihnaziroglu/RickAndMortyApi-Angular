@@ -12,51 +12,60 @@
       <div class="input-group">
         <label for="name">
           <i class="fas fa-search"></i>
-          Bölüm Adı Ara
+          Episode Name
         </label>
         <input 
-          id="name" 
+          id="Name" 
           type="text" 
           formControlName="name" 
-          placeholder="Bölüm adı ara..."
+          placeholder="Season Name Search"
         >
       </div>
 
       <div class="input-group">
         <label for="season">
           <i class="fas fa-tv"></i>
-          Sezon Seçin
+          Seasons
         </label>
         <select 
           id="season" 
           formControlName="season"
         >
-          <option value="">Tüm Sezonlar</option>
-          <option *ngFor="let s of seasons" [value]="s">{{s}}. Sezon</option>
+          <option value="">All Seasons</option>
+          <option *ngFor="let s of seasons" [value]="s">{{s}}. Season</option>
         </select>
       </div>
 
       <div class="input-group">
         <label for="episode">
           <i class="fas fa-film"></i>
-          Bölüm Seçin
-          <span *ngIf="!filterForm.value.season">(1-11 arası tüm sezonlarda ara)</span>
+          Episodes
         </label>
         <select 
           id="episode" 
           formControlName="episode"
         >
-          <option value="">Tüm Bölümler</option>
+          <option value="">All Episodes</option>
           <option *ngFor="let e of episodes" [value]="e">
             <span *ngIf="filterForm.value.season; else allSeasons">
-              {{e}}. Bölüm (S{{filterForm.value.season | number:'2.0'}}E{{e | number:'2.0'}})
+              {{e}}. Episode
             </span>
             <ng-template #allSeasons>
-              Tüm Sezonlarda {{e}}. Bölüm Ara
+                All Seasons {{e}}. Episode
             </ng-template>
           </option>
         </select>
       </div>
     </form>
+
+    <div class="button-group">
+        <button 
+        type="button" 
+        class="filter-button reset"
+        (click)="resetFilters()">
+        <i class="fas fa-undo"></i>
+        Reset
+      </button>
+    </div>
   </div>
 </div>

@@ -70,4 +70,13 @@ export class EpisodeFiltersComponent implements OnInit {
   getEpisodeNumber(episode: number): number {
     return ((episode - 1) % 11) + 1;
   }
+
+  resetFilters(): void {
+    this.filterForm.reset({
+      name: '',
+      season: '',
+      episode: ''
+    });
+    this.filterChange.emit(this.filterForm.value);
+  }
 }
