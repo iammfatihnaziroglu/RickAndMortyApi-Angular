@@ -122,11 +122,44 @@
       </div>
 
       <div class="episode-grid">
-        <div *ngFor="let episode of episodes" class="episode-card">
+        <div 
+          *ngFor="let episode of episodes" 
+          class="episode-card"
+          (click)="showEpisodeDetails(episode.id)"
+        >
           <h3>{{ episode.name }}</h3>
           <div class="episode-info">
             <p><i class="fas fa-tag"></i> {{ episode.episode }}</p>
             <p><i class="fas fa-calendar-day"></i> {{ episode.air_date }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Episode Modal -->
+      <div *ngIf="selectedEpisode" class="modal-overlay" (click)="closeModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+          <button class="close-btn" (click)="closeModal()">&times;</button>
+          
+          <h2>{{ selectedEpisode.name }}</h2>
+          <div class="episode-meta">
+            <p><i class="fas fa-barcode"></i> {{ selectedEpisode.episode }}</p>
+            <p><i class="fas fa-calendar-alt"></i> {{ selectedEpisode.air_date }}</p>
+          </div>
+
+          <div class="character-list">
+            <h4><i class="fas fa-users"></i> Karakterler ({{ selectedEpisode.characters.length }})</h4>
+            <div class="character-grid-mini">
+              <div 
+                *ngFor="let characterUrl of selectedEpisode.characters" 
+                class="character-card-mini"
+                [title]="getCharacterName(characterUrl)"
+              >
+                <img [src]="getCharacterImage(characterUrl)" alt="Character">
+                <div class="character-name-overlay">
+                  {{ getCharacterName(characterUrl) }}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -72,6 +72,8 @@ export class AppComponent {
   showFilters = false;
   showCharacterFilters = false;
   showLocationFilters = false;
+  selectedEpisode: any = null;
+  characterNames: {[key: string]: string} = {};
 
   constructor(
     private http: HttpClient,
@@ -290,6 +292,7 @@ export class AppComponent {
 
   closeModal(): void {
     this.selectedLocation = null;
+    this.selectedEpisode = null;
   }
 
   // Mobil dokunmatik kontrolü
@@ -353,5 +356,47 @@ export class AppComponent {
 
   private getEpisodeInSeason(episode: number): number {
     return ((episode - 1) % 11) + 1;
+  }
+
+  showEpisodeDetails(episodeId: number): void {
+    this.http.get(`https://rickandmortyapi.com/api/episode/${episodeId}`)
+      .subscribe({
+        next: async (episode: any) => {
+          this.selectedEpisode = episode;
+          await this.loadCharacterNames(episode.characters);
+        },
+        error: (err) => {
+          this.errorMessage = 'Bölüm detayları yüklenemedi!';
+          console.error('Hata:', err);
+        }
+      });
+  }
+
+  private async loadCharacterNames(characterUrls: string[]): Promise<void> {
+    const ids = characterUrls.map(url => url.split('/').pop());
+    const uniqueIds = [...new Set(ids)];
+    
+    try {
+      const response: any = await this.http.get(
+        `https://rickandmortyapi.com/api/character/${uniqueIds.join(',')}`
+      ).toPromise();
+
+      const characters = Array.isArray(response) ? response : [response];
+      characters.forEach(char => {
+        this.characterNames[char.id] = char.name;
+      });
+    } catch (err) {
+      console.error('Karakter isimleri yüklenemedi:', err);
+    }
+  }
+
+  getCharacterName(characterUrl: string): string {
+    const id = characterUrl.split('/').pop();
+    return this.characterNames[id!] || 'Yükleniyor...';
+  }
+
+  getCharacterImage(characterUrl: string): string {
+    const id = characterUrl.split('/').pop();
+    return `https://rickandmortyapi.com/api/character/avatar/${id}.jpeg`;
   }
 }

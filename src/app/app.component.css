@@ -518,3 +518,107 @@
     margin: 0.3rem;
   }
 }
+
+/* Karakter Grid Güncellemesi */
+.character-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 15px;
+  padding-right: 10px;
+}
+
+/* Kaydırma Çubuğu Stili */
+.character-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.character-list::-webkit-scrollbar-thumb {
+  background: #42b983;
+  border-radius: 4px;
+}
+
+.character-list::-webkit-scrollbar-track {
+  background: #1e1e1e;
+  border-radius: 5px;
+}
+
+/* Grid İçeriği */
+.character-grid-mini {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 25px;
+  padding: 15px 0;
+}
+
+.character-card-mini {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #42b983;
+  transition: transform 0.2s;
+  aspect-ratio: 3/4;
+}
+
+.character-card-mini img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.character-name-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 8px;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* Responsive Breakpoints */
+@media (min-width: 1920px) {
+  .character-card-mini img {
+    height: 200px;
+  }
+}
+
+@media (max-width: 1440px) {
+  .character-card-mini img {
+    height: 160px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .character-card-mini img {
+    height: 140px;
+  }
+}
+
+@media (max-width: 768px) {
+  .character-grid-mini {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+  
+  .character-card-mini img {
+    height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .character-grid-mini {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .character-card-mini {
+    aspect-ratio: 3/4;
+  }
+  
+  .character-name-overlay {
+    font-size: 0.7rem;
+    padding: 4px;
+  }
+}
