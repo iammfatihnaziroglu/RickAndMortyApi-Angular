@@ -732,11 +732,6 @@
 
 @media (max-width: 1440px) {
   .character-card-mini img {
-    height: 160px;
-  }
-}
-@media (max-width: 1024px) {
-  .character-card-mini img {
     height: 200px;
   }
 }
