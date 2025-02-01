@@ -949,3 +949,18 @@
     gap: 10px;
   }
 }
+
+@media (max-width: 768px) {
+  .character-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .character-card {
+    width: 90%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+}
