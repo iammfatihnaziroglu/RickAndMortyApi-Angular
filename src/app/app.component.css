@@ -60,13 +60,13 @@
 .character-info h3 {
   margin: 0;
   font-size: 1.1rem;
-  color: #2c3e50;
+  color: #000000;
 }
 
 .character-info p {
   margin: 0.5rem 0;
   font-size: 0.9rem;
-  color: #7f8c8d;
+  color: #10767e;
 }
 
 /* Hata mesajı */
@@ -279,8 +279,12 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   margin-top: 1.5rem;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #10767e;
   text-align: left;
+  text-transform: capitalize;
 }
 
 .details-grid div {
@@ -290,10 +294,12 @@
 }
 
 .details-grid strong {
-  color: #2c3e50;
+  color: #000000c4;
   display: block;
   margin-bottom: 0.3rem;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  font-weight: 800;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .location-grid {
@@ -315,6 +321,8 @@
 
 .location-card:hover {
   transform: translateY(-5px);
+  box-shadow: 20px 20px 20px rgba(66, 185, 131, 0.15);
+  border-color: #42b983;
 }
 
 .location-card h3 {
@@ -515,7 +523,9 @@
 }
 
 .episode-card:hover {
-  transform: translateY(-3px);
+    transform: translateY(-5px);
+    box-shadow: 20px 20px 20px #0c629c3b;
+    border-color: #0C629C;
 }
 
 .episode-info {
@@ -610,6 +620,7 @@
   color: white;
   padding: 8px;
   font-size: 0.85rem;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   text-align: center;
 }
 
