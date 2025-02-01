@@ -194,11 +194,14 @@
   padding: 2rem;
   border-radius: 16px;
   max-width: 600px;
-  width: 70%;
+  width: 80%;
   position: relative;
   animation: modalEnter 0.3s ease;
   text-align: center;
   touch-action: manipulation;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 @keyframes modalEnter {
@@ -236,6 +239,34 @@
   margin: 0 auto 1rem;
   display: block;
   border: 3px solid #42b983;
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .modal-content {
+    width: 90%;
+    max-width: none;
+    padding: 1.5rem;
+    max-height: 90vh;
+  }
+  
+  .modal-image {
+    width: 160px;
+    height: 160px;
+    margin-top: 170px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    padding: 1rem;
+    max-height: 95vh;
+  }
+  
+  .modal-image {
+    width: 150px;
+    height: 150px;
+  }
 }
 
 @media (max-width: 480px) {
