@@ -875,4 +875,40 @@
   .detail-item i {
     font-size: 1.1rem;
   }
+  
+}
+
+.cards-container {
+  position: relative;
+  min-height: 300px; /* Loading'in görünebilmesi için minimum yükseklik */
+}
+
+/* ESKİ LOADING STİLLERİNİ SİL */
+.loading-overlay,
+.portal-container,
+.portal,
+.loading-text,
+.wubba-lubba {
+  display: none !important;
+}
+
+.custom-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  text-align: center;
+}
+
+.loader-image {
+  width: 300px;
+  height: 300px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
 }

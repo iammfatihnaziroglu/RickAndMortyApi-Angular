@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { FiltersComponent } from "./filters/filters.component";
 import { LocationFiltersComponent } from './location-filters/location-filters.component';
-import { of, catchError, switchMap } from 'rxjs';
+import { of, catchError, switchMap, finalize, delay } from 'rxjs';
 import { Router } from '@angular/router';
 import { NavigationComponent } from './navigation/navigation.component';
 import { EpisodeFiltersComponent } from './episode-filters/episode-filters.component';
@@ -75,6 +75,16 @@ export class AppComponent {
   selectedEpisode: any = null;
   characterNames: {[key: string]: string} = {};
 
+  // Yüklenme durumunu belirten property
+  isLoading: boolean = false;
+  showLoader: boolean = true;
+
+  showErrorDelayed = false;
+  private errorTimer: any;
+
+  // Yeni değişken ekleyelim
+  isResettingFilters = false;
+
   constructor(
     private http: HttpClient,
     private router: Router
@@ -82,20 +92,26 @@ export class AppComponent {
     this.loadData();
   }
 
- 
   loadCharacters(page: number = 1, filters: any = {}) {
+    const loadingPromise = new Promise(resolve => setTimeout(resolve, 2000));
+    
+    this.isLoading = true;
+    this.showLoader = true;
     this.errorMessage = null;
     this.characters = [];
-
+    
     const handleError = (err: any) => {
-      this.errorMessage = this.getErrorMessage(err.status);
-      this.characters = [];
-      this.totalPages = 1;
+      loadingPromise.then(() => {
+        this.isLoading = false;
+        this.showLoader = true;
+        this.errorMessage = this.getErrorMessage(err.status);
+      });
       return of(null);
     };
 
     if (filters.episode) {
       this.http.get<any>(`https://rickandmortyapi.com/api/episode/${filters.episode}`).pipe(
+        delay(1000),
         catchError(handleError),
         switchMap(episode => {
           if (!episode) return of(null);
@@ -107,7 +123,8 @@ export class AppComponent {
           return this.http.get<any>(`https://rickandmortyapi.com/api/character/${characterIds}`).pipe(
             catchError(handleError)
           );
-        })
+        }),
+        
       ).subscribe(response => {
         if (!response) return;
         
@@ -117,6 +134,10 @@ export class AppComponent {
         if (this.characters.length === 0) {
           this.errorMessage = 'No characters found in this section';
         }
+        loadingPromise.then(() => {
+          this.isLoading = false;
+          this.showLoader = true;
+        });
       });
     } else {
       let params = new HttpParams().set('page', page.toString());
@@ -125,7 +146,8 @@ export class AppComponent {
       });
 
       this.http.get<any>(`https://rickandmortyapi.com/api/character`, { params }).pipe(
-        catchError(handleError)
+        delay(3000),
+        catchError(handleError),
       ).subscribe(response => {
         if (!response) return;
         
@@ -135,6 +157,10 @@ export class AppComponent {
         if (this.characters.length === 0) {
           this.errorMessage = 'Bu filtrelerle eşleşen karakter bulunamadı';
         }
+        loadingPromise.then(() => {
+          this.isLoading = false;
+          this.showLoader = true;
+        });
       });
     }
   }
@@ -194,6 +220,8 @@ export class AppComponent {
     this.locations = [];
     this.episodes = [];
     this.errorMessage = null;
+    // Tab geçişlerinde de yükleniyor durumunu göstermek için isLoading true yapıyoruz.
+    this.isLoading = true;
     this.loadData();
   }
 
@@ -213,6 +241,7 @@ export class AppComponent {
 
   private handleError = (err: any) => {
     this.errorMessage = this.getErrorMessage(err.status);
+    this.showDelayedError();
     this.characters = [];
     this.locations = [];
     this.episodes = [];
@@ -220,10 +249,12 @@ export class AppComponent {
   }
 
   private loadLocations(page: number = 1, filters: any = {}) {
-
-    let params = new HttpParams()
-      .set('page', page.toString());
-
+    const loadingPromise = new Promise(resolve => setTimeout(resolve, 2000));
+    
+    this.isLoading = true;
+    this.showLoader = true;
+    
+    let params = new HttpParams().set('page', page.toString());
 
     if (filters) {
       Object.keys(filters).forEach(key => {
@@ -233,12 +264,16 @@ export class AppComponent {
       });
     }
 
-    
-
     this.http.get<any>(`https://rickandmortyapi.com/api/location`, { params })
       .pipe(
+        delay(3000),
         catchError(error => {
-          return this.handleError(error);
+          loadingPromise.then(() => {
+            this.isLoading = false;
+            this.showLoader = true;
+            this.handleError(error);
+          });
+          return of(null);
         })
       )
       .subscribe({
@@ -248,27 +283,46 @@ export class AppComponent {
             this.totalPages = response.info.pages;
             this.currentPage = page;
           }
+          loadingPromise.then(() => {
+            this.isLoading = false;
+            this.showLoader = true;
+          });
         },
-       
       });
   }
 
   private loadEpisodes(page: number, filters: any = {}): void {
-    let params = new HttpParams().set('page', page.toString());
+    const loadingPromise = new Promise(resolve => setTimeout(resolve, 2000));
     
+    this.isLoading = true;
+    this.showLoader = true;
+    
+    let params = new HttpParams().set('page', page.toString());
     if(filters.name) params = params.set('name', filters.name);
     if(filters.episode) params = params.set('episode', filters.episode);
 
     this.http.get(`https://rickandmortyapi.com/api/episode`, { params })
+      .pipe(
+        delay(3000),
+        finalize(() => { this.isLoading = false; this.showLoader = true; })
+      )
       .subscribe({
         next: (data: any) => {
           this.episodes = data.results;
           this.totalPages = data.info.pages;
           this.currentPage = page;
+          loadingPromise.then(() => {
+            this.isLoading = false;
+            this.showLoader = true;
+          });
         },
         error: (err) => {
           this.episodes = [];
           this.totalPages = 1;
+          loadingPromise.then(() => {
+            this.isLoading = false;
+            this.showLoader = true;
+          });
         }
       });
   }
@@ -411,5 +465,34 @@ export class AppComponent {
       month: 'long', 
       year: 'numeric' 
     });
+  }
+
+  resetFilters() {
+    this.isResettingFilters = true;
+    this.showLoader = false;
+    
+    // 500ms sonra reset bayrağını kaldır (isteğin hızlı gelme durumu için)
+    setTimeout(() => {
+      this.isResettingFilters = false;
+    }, 500);
+
+    this.showLoader = false;
+    setTimeout(() => {
+      if (this.isLoading) this.showLoader = true;
+    }, 2000);
+  }
+
+  // Hata gösterimini geciktiren metod
+  private showDelayedError() {
+    clearTimeout(this.errorTimer); // Önceki timer'ı temizle
+    this.showErrorDelayed = false;
+    
+    this.errorTimer = setTimeout(() => {
+      this.showErrorDelayed = true;
+    }, 1500);
+  }
+
+  ngOnDestroy() {
+    clearTimeout(this.errorTimer);
   }
 }
