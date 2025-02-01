@@ -75,14 +75,12 @@ export class AppComponent {
   selectedEpisode: any = null;
   characterNames: {[key: string]: string} = {};
 
-  // Yüklenme durumunu belirten property
   isLoading: boolean = false;
   showLoader: boolean = true;
 
   showErrorDelayed = false;
   private errorTimer: any;
 
-  // Yeni değişken ekleyelim
   isResettingFilters = false;
 
   constructor(
@@ -94,7 +92,7 @@ export class AppComponent {
 
   loadCharacters(page: number = 1, filters: any = {}) {
     this.errorMessage = '';
-    this.showErrorDelayed = false; // Reset error state
+    this.showErrorDelayed = false; 
     
     const loadingPromise = new Promise(resolve => setTimeout(resolve, 2000));
     
@@ -106,7 +104,6 @@ export class AppComponent {
       loadingPromise.then(() => {
         this.isLoading = false;
         this.showLoader = true;
-        this.errorMessage = this.parseErrorMessage(err);
       });
       return of(null);
     };
@@ -152,7 +149,6 @@ export class AppComponent {
         finalize(() => {
           this.isLoading = false;
           this.showLoader = false;
-          // Hata gösterimini 500ms gecikmeli aktif et
           setTimeout(() => this.showErrorDelayed = true, 500);
         })
       )
@@ -164,8 +160,6 @@ export class AppComponent {
         },
         error: (err) => {
           this.characters = [];
-          this.errorMessage = this.parseErrorMessage(err);
-          // Hata durumunda direkt gösterim
           this.showErrorDelayed = true; 
         }
       });
@@ -225,7 +219,6 @@ export class AppComponent {
     this.locations = [];
     this.episodes = [];
     this.errorMessage = null;
-    // Tab geçişlerinde de yükleniyor durumunu göstermek için isLoading true yapıyoruz.
     this.isLoading = true;
     this.loadData();
   }
@@ -484,10 +477,8 @@ export class AppComponent {
     }, 2000);
   }
 
-  // Hata gösterimini geciktiren metod
   private showDelayedError() {
-    clearTimeout(this.errorTimer); // Önceki timer'ı temizle
-    this.showErrorDelayed = false;
+    clearTimeout(this.errorTimer); 
     
     this.errorTimer = setTimeout(() => {
       this.showErrorDelayed = true;

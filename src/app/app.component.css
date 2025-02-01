@@ -1,4 +1,4 @@
-/* Ana konteyner */
+
 :host {
   display: block;
   max-width: 1200px;
@@ -22,7 +22,7 @@
   transform: scale(1.02);
 }
 
-/* Karakter grid */
+
 .character-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -69,7 +69,7 @@
   color: #10767e;
 }
 
-/* Hata mesajı */
+
 .no-results {
   text-align: center;
   padding: 2rem;
@@ -90,7 +90,7 @@
   line-height: 1.6;
 }
 
-/* Pagination */
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -133,7 +133,7 @@
   font-weight: 600;
 }
 
-/* Mobil için pagination düzenlemesi */
+
 @media (max-width: 480px) {
   .pagination {
     flex-direction: row;
@@ -194,14 +194,11 @@
   padding: 2rem;
   border-radius: 16px;
   max-width: 600px;
-  width: 80%;
+  width: 70%;
   position: relative;
   animation: modalEnter 0.3s ease;
   text-align: center;
   touch-action: manipulation;
-  max-height: 85vh;
-  overflow-y: auto;
-  box-sizing: border-box;
 }
 
 @keyframes modalEnter {
@@ -239,33 +236,27 @@
   margin: 0 auto 1rem;
   display: block;
   border: 3px solid #42b983;
+  margin-top: 20px;
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
-  .modal-content {
-    width: 90%;
-    max-width: none;
-    padding: 1.5rem;
-    max-height: 90vh;
-  }
-  
   .modal-image {
-    width: 160px;
-    height: 160px;
-    margin-top: 170px;
+    width: 180px;   
+    height: 180px;  
+    border-radius: 30%;
+    border-width: 2px;
+    margin-bottom: 0.8rem;
   }
 }
 
+
 @media (max-width: 768px) {
-  .modal-content {
-    width: 95%;
-    padding: 1rem;
-    max-height: 95vh;
-  }
-  
   .modal-image {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border-width: 3px;
+    margin-bottom: 1rem;
   }
 }
 
@@ -306,31 +297,44 @@
 }
 
 .details-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-top: 1.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  color: #10767e;
-  text-align: left;
-  text-transform: capitalize;
 }
 
 .details-grid div {
+  flex: 1;
+  min-width: 150px;
   padding: 0.8rem;
-  background: #f8f9fa;
+  background: #0c613215;
+  color:   #0d4879ec;
+  font-weight: 600;
   border-radius: 8px;
+  text-align: start;
 }
 
-.details-grid strong {
-  color: #000000c4;
-  display: block;
-  margin-bottom: 0.3rem;
-  font-size: 1rem;
-  font-weight: 800;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+.details-grid strong{
+  color: black !important;
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .details-grid div {
+    min-width: 120px;
+    padding: 0.6rem;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .details-grid {
+    flex-direction: column;
+  }
+  
+  .details-grid div {
+    width: 100%;
+    min-width: auto;
+  }
 }
 
 .location-grid {
@@ -389,7 +393,7 @@
   text-transform: capitalize;
 }
 
-/* Responsive düzenlemeler */
+
 @media (max-width: 768px) {
   .location-grid {
     grid-template-columns: 1fr;
@@ -415,7 +419,7 @@
   }
 }
 
-/* Modal Stilleri */
+
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -544,7 +548,7 @@
   }
 }
 
-/* Bölüm Kartları */
+
 .episode-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -651,7 +655,7 @@
   }
 }
 
-/* Karakter Grid Güncellemesi */
+
 .character-list {
   max-height: 400px;
   overflow-y: auto;
@@ -666,7 +670,7 @@
   flex-direction: row;
 }
 
-/* Kaydırma Çubuğu Stili */
+
 .character-list::-webkit-scrollbar {
   width: 8px;
 }
@@ -681,7 +685,7 @@
   border-radius: 5px;
 }
 
-/* Grid İçeriği */
+
 .character-grid-mini {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -718,7 +722,7 @@
   text-align: center;
 }
 
-/* Responsive Breakpoints */
+
 @media (min-width: 1920px) {
   .character-card-mini img {
     height: 200px;
@@ -816,7 +820,7 @@
   margin-top: 1.5rem;
 }
 
-/* Mobil Uyum */
+
 @media (max-width: 480px) {
   .modal-episode-info h2 {
     font-size: 1.4rem;
@@ -841,7 +845,7 @@
   }
 }
 
-/* İkon renkleri */
+
 .modal-meta-item.season i {
   color: #2c3e50;
 }
@@ -895,7 +899,7 @@
   color: #34495e;
 }
 
-/* Mobil Uyum */
+
 @media (max-width: 480px) {
   .detail-item {
     font-size: 1rem;
@@ -911,10 +915,10 @@
 
 .cards-container {
   position: relative;
-  min-height: 300px; /* Loading'in görünebilmesi için minimum yükseklik */
+  min-height: 300px;
 }
 
-/* ESKİ LOADING STİLLERİNİ SİL */
+
 .loading-overlay,
 .portal-container,
 .portal,
