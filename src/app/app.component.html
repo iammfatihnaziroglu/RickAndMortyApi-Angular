@@ -33,8 +33,8 @@
         </div>
 
         <div *ngIf="!isLoading">
-          <div *ngIf="(errorMessage || characters.length === 0) && showErrorDelayed" class="no-results">
-            <h3>⚠️ {{errorMessage || 'No results found'}}</h3>
+          <div *ngIf="showErrorDelayed && (errorMessage || characters.length === 0)" class="no-results">
+            <h3>⚠️ {{errorMessage || 'No characters found'}}</h3>
             <p>Oh man, oh geez... 
               <br>
               Please check the filters or perform a different search Morty, Geez.</p>
@@ -87,6 +87,13 @@
         </div>
 
         <div *ngIf="!isLoading">
+          <div *ngIf="showErrorDelayed && (errorMessage || locations.length === 0)" class="no-results">
+            <h3>⚠️ {{errorMessage || 'No locations found'}}</h3>
+            <p>Oh man, oh geez... 
+              <br>
+              Try adjusting your filters, Morty!</p>
+          </div>
+
           <div class="location-grid">
             <div *ngFor="let location of locations" 
                  class="location-card"
@@ -95,13 +102,6 @@
               <p><i class="fas fa-globe"></i> {{ location.type || 'Unknown' }}</p>
               <p><i class="fas fa-cube"></i> {{ location.dimension || 'Unknown' }}</p>
             </div>
-          </div>
-
-          <div *ngIf="errorMessage || locations.length === 0" class="no-results">
-            <h3>⚠️ {{errorMessage || 'No locations found'}}</h3>
-            <p>Oh man, oh geez... 
-              <br>
-              Try adjusting your filters, Morty!</p>
           </div>
 
           <div *ngIf="selectedLocation" class="modal-backdrop" 

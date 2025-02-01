@@ -93,18 +93,20 @@ export class AppComponent {
   }
 
   loadCharacters(page: number = 1, filters: any = {}) {
+    this.errorMessage = '';
+    this.showErrorDelayed = false; // Reset error state
+    
     const loadingPromise = new Promise(resolve => setTimeout(resolve, 2000));
     
     this.isLoading = true;
     this.showLoader = true;
-    this.errorMessage = null;
     this.characters = [];
     
     const handleError = (err: any) => {
       loadingPromise.then(() => {
         this.isLoading = false;
         this.showLoader = true;
-        this.errorMessage = this.getErrorMessage(err.status);
+        this.errorMessage = this.parseErrorMessage(err);
       });
       return of(null);
     };
@@ -146,31 +148,34 @@ export class AppComponent {
       });
 
       this.http.get<any>(`https://rickandmortyapi.com/api/character`, { params }).pipe(
-        delay(3000),
-        catchError(handleError),
-      ).subscribe(response => {
-        if (!response) return;
-        
-        this.characters = response.results;
-        this.totalPages = response.info.pages;
-        this.currentPage = page;
-        if (this.characters.length === 0) {
-          this.errorMessage = 'Bu filtrelerle eşleşen karakter bulunamadı';
-        }
-        loadingPromise.then(() => {
+        delay(1000),
+        finalize(() => {
           this.isLoading = false;
-          this.showLoader = true;
-        });
+          this.showLoader = false;
+          // Hata gösterimini 500ms gecikmeli aktif et
+          setTimeout(() => this.showErrorDelayed = true, 500);
+        })
+      )
+      .subscribe({
+        next: (data) => {
+          this.characters = data.results || [];
+          this.totalPages = data.info?.pages || 1;
+          this.currentPage = page;
+        },
+        error: (err) => {
+          this.characters = [];
+          this.errorMessage = this.parseErrorMessage(err);
+          // Hata durumunda direkt gösterim
+          this.showErrorDelayed = true; 
+        }
       });
     }
   }
 
-  private getErrorMessage(status: number): string {
-    switch(status) {
-      case 404: return 'No results found for your search/filter criteria';
-      case 500: return 'Server error, please try again later';
-      default: return 'An unexpected error occurred';
-    }
+  private parseErrorMessage(error: any): string {
+    if (error.status === 404) return 'No characters found with these criteria';
+    if (error.error?.error) return error.error.error;
+    return 'An unknown error occurred';
   }
 
   changePage(newPage: number): void {
@@ -240,7 +245,7 @@ export class AppComponent {
   }
 
   private handleError = (err: any) => {
-    this.errorMessage = this.getErrorMessage(err.status);
+    this.errorMessage = this.parseErrorMessage(err);
     this.showDelayedError();
     this.characters = [];
     this.locations = [];
@@ -249,46 +254,43 @@ export class AppComponent {
   }
 
   private loadLocations(page: number = 1, filters: any = {}) {
-    const loadingPromise = new Promise(resolve => setTimeout(resolve, 2000));
+    this.errorMessage = '';
+    this.showErrorDelayed = false;
     
     this.isLoading = true;
     this.showLoader = true;
-    
-    let params = new HttpParams().set('page', page.toString());
 
-    if (filters) {
-      Object.keys(filters).forEach(key => {
-        if (filters[key] && filters[key].trim() !== '') {
-          params = params.set(key, filters[key].trim());
-        }
-      });
-    }
+    let params = new HttpParams().set('page', page.toString());
+    if(filters.name) params = params.set('name', filters.name);
+    if(filters.type) params = params.set('type', filters.type);
+    if(filters.dimension) params = params.set('dimension', filters.dimension);
 
     this.http.get<any>(`https://rickandmortyapi.com/api/location`, { params })
       .pipe(
-        delay(3000),
-        catchError(error => {
-          loadingPromise.then(() => {
-            this.isLoading = false;
-            this.showLoader = true;
-            this.handleError(error);
-          });
-          return of(null);
+        delay(1000),
+        finalize(() => {
+          this.isLoading = false;
+          this.showLoader = false;
+          setTimeout(() => this.showErrorDelayed = true, 500);
         })
       )
       .subscribe({
-        next: (response) => {
-          if (response) {
-            this.locations = response.results;
-            this.totalPages = response.info.pages;
-            this.currentPage = page;
-          }
-          loadingPromise.then(() => {
-            this.isLoading = false;
-            this.showLoader = true;
-          });
+        next: (data) => {
+          this.locations = data.results || [];
+          this.totalPages = data.info?.pages || 1;
         },
+        error: (err) => {
+          this.locations = [];
+          this.errorMessage = this.parseLocationError(err);
+          this.showErrorDelayed = true;
+        }
       });
+  }
+
+  private parseLocationError(error: any): string {
+    if (error.status === 404) return 'No locations found with these criteria';
+    if (error.error?.error) return error.error.error;
+    return 'Failed to load locations';
   }
 
   private loadEpisodes(page: number, filters: any = {}): void {
