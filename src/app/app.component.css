@@ -328,7 +328,7 @@
 
 @media (max-width: 768px) {
   .details-grid {
-    flex-direction: column;
+    flex-direction: row;
   }
   
   .details-grid div {
