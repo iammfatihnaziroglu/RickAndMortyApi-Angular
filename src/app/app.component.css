@@ -735,10 +735,9 @@
     height: 160px;
   }
 }
-
 @media (max-width: 1024px) {
   .character-card-mini img {
-    height: 140px;
+    height: 200px;
   }
 }
 
