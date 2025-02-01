@@ -317,6 +317,12 @@
   transition: transform 0.2s;
   cursor: pointer;
   text-transform: capitalize;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 180px;
+  text-align: center;
 }
 
 .location-card:hover {
@@ -326,12 +332,13 @@
 }
 
 .location-card h3 {
-  margin: 0 0 1rem 0;
-  font-size: 1.3rem;
-  color: #2c3e50;
-  border-bottom: 2px solid #a7b942b4;;
+  border-bottom: 2px solid #a7b94262;
+  border-radius: 50% ;
+  width: 100%;
   padding-bottom: 0.5rem;
-  text-transform: capitalize;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 .location-card p {
@@ -351,7 +358,6 @@
   text-transform: capitalize;
 }
 
-
 /* Responsive düzenlemeler */
 @media (max-width: 768px) {
   .location-grid {
@@ -364,7 +370,8 @@
   }
 
   .location-card h3 {
-    font-size: 1.2rem;
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.8rem;
   }
 
   .location-card p {
@@ -392,7 +399,8 @@
 }
 
 .modal-header {
-  border-bottom: 2px solid #42b983;
+  border-bottom: 2px solid #a6b42156;
+  border-radius: 25%;
   padding-bottom: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -587,11 +595,17 @@
   }
   
   .episode-card {
+    min-height: 150px;
     padding: 1rem;
   }
-
+  
+  .episode-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+  }
+  
   .episode-meta p {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -728,11 +742,6 @@
   }
 }
 
-/* Modal İçi Özel Stiller */
-.modal-content {
-  /* ... diğer stiller ... */
-}
-
 .modal-episode-info {
   text-align: center;
   margin: 1.5rem 0;
@@ -812,4 +821,58 @@
 
 .modal-meta-item.characters i {
   color: #666;
+}
+
+.modal-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.location-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  gap: 0.8rem;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  width: 100%;
+  max-width: 300px;
+  padding: 0.8rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.detail-item i {
+  color: #2a9299;
+  font-size: 1.3rem;
+  min-width: 30px;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #34495e;
+}
+
+/* Mobil Uyum */
+@media (max-width: 480px) {
+  .detail-item {
+    font-size: 1rem;
+    max-width: 250px;
+    padding: 0.6rem;
+  }
+  
+  .detail-item i {
+    font-size: 1.1rem;
+  }
 }
