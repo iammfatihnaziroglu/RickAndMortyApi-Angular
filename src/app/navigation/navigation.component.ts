@@ -23,9 +23,9 @@ import { CommonModule } from '@angular/common';
       margin: 2rem 0;
     }
     button {
-      padding: 1rem 2rem;
+      padding: 1rem 1.5rem;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       background: #f0f0f0;
       cursor: pointer;
       transition: all 0.3s ease;
