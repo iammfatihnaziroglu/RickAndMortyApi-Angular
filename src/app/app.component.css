@@ -724,27 +724,6 @@
 }
 
 
-@media (min-width: 1920px) {
-  .character-card-mini img {
-    height: 200px;
-  }
-}
-
-@media (max-width: 1440px) {
-  .character-card-mini img {
-    height: 200px;
-  }
-}
-
-@media (max-width: 768px) {
-  .character-grid-mini {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  }
-  
-  .character-card-mini img {
-    height: 120px;
-  }
-}
 
 @media (max-width: 480px) {
   .character-grid-mini {
