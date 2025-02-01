@@ -128,9 +128,21 @@
           (click)="showEpisodeDetails(episode.id)"
         >
           <h3>{{ episode.name }}</h3>
-          <div class="episode-info">
-            <p><i class="fas fa-tag"></i> {{ episode.episode }}</p>
-            <p><i class="fas fa-calendar-day"></i> {{ episode.air_date }}</p>
+          <div class="episode-meta">
+            <p class="season-info">
+              <i class="fas fa-tv"></i>
+              {{ formatEpisode(episode.episode) }}
+            </p>
+            
+            <p class="air-date">
+              <i class="far fa-calendar-alt"></i>
+              {{ formatAirDate(episode.air_date) }}
+            </p>
+
+            <p class="character-count">
+              <i class="fas fa-users"></i>
+              {{ episode.characters.length }} Characters
+            </p>
           </div>
         </div>
       </div>
@@ -139,15 +151,28 @@
       <div *ngIf="selectedEpisode" class="modal-overlay" (click)="closeModal()">
         <div class="modal-content" (click)="$event.stopPropagation()">
           <button class="close-btn" (click)="closeModal()">&times;</button>
-          
-          <h2>{{ selectedEpisode.name }}</h2>
-          <div class="episode-meta">
-            <p><i class="fas fa-barcode"></i> {{ selectedEpisode.episode }}</p>
-            <p><i class="fas fa-calendar-alt"></i> {{ selectedEpisode.air_date }}</p>
-          </div>
 
+          <div class="modal-episode-info">
+            <h2>{{selectedEpisode?.name}}</h2>
+            
+            <div class="modal-meta-item season">
+              <i class="fas fa-tv"></i>
+              <span>{{formatEpisode(selectedEpisode?.episode)}}</span>
+            </div>
+            
+            <div class="modal-meta-item date">
+              <i class="far fa-calendar-alt"></i> 
+              <span>{{formatAirDate(selectedEpisode?.air_date)}}</span>
+            </div>
+            
+            <div class="modal-meta-item characters">
+              <i class="fas fa-users"></i>
+              <span>{{selectedEpisode?.characters?.length}} Character</span>
+            </div>
+          </div>
+         
           <div class="character-list">
-            <h4><i class="fas fa-users"></i> Characters ({{ selectedEpisode.characters.length }})</h4>
+           
             <div class="character-grid-mini">
               <div 
                 *ngFor="let characterUrl of selectedEpisode.characters" 

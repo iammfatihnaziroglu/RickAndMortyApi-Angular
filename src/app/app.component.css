@@ -329,7 +329,7 @@
   margin: 0 0 1rem 0;
   font-size: 1.3rem;
   color: #2c3e50;
-  border-bottom: 2px solid #a7b942;
+  border-bottom: 2px solid #a7b942b4;;
   padding-bottom: 0.5rem;
   text-transform: capitalize;
 }
@@ -347,7 +347,7 @@
 
 .location-card i {
   margin: 0.5rem 0; 
-  color: #42b983;
+  color: #257550d7;
   text-transform: capitalize;
 }
 
@@ -522,6 +522,15 @@
   cursor: pointer;
 }
 
+.episode-card h3{
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ margin-bottom: 9%;
+ border-bottom: 2px solid rgba(159, 184, 18, 0.39) ;
+ border-radius: 50%;
+}
+
 .episode-card:hover {
     transform: translateY(-5px);
     box-shadow: 20px 20px 20px #0c629c3b;
@@ -542,6 +551,35 @@
   color: #0c629c;
 }
 
+.episode-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: -20px;
+  background: none;
+}
+
+.episode-meta p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+}
+
+.season-info {
+  color: #116074;
+  font-weight: 600;
+}
+
+.air-date {
+  color: #3b4041;
+  font-style: italic;
+}
+
+.character-count {
+  color: #838282f3;
+  font-weight: 500;
+}
+
 @media (max-width: 768px) {
   .episode-grid {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -550,6 +588,10 @@
   
   .episode-card {
     padding: 1rem;
+  }
+
+  .episode-meta p {
+    font-size: 0.85rem;
   }
 }
 
@@ -570,6 +612,13 @@
   overflow-y: auto;
   margin-top: 15px;
   padding-right: 10px;
+}
+
+.character-list h4{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
 }
 
 /* Kaydırma Çubuğu Stili */
@@ -677,4 +726,90 @@
     background: linear-gradient(0deg, rgba(29, 29, 29, 0.9) 30%, transparent);
     padding: 8px 4px;
   }
+}
+
+/* Modal İçi Özel Stiller */
+.modal-content {
+  /* ... diğer stiller ... */
+}
+
+.modal-episode-info {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.modal-episode-info h2 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.modal-meta-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 1.2rem 0;
+  font-size: 1.1rem;
+}
+
+.modal-meta-item i {
+  color: inherit;
+}
+
+.modal-meta-item.season {
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.modal-meta-item.date {
+  color: #444444;
+  font-size: 0.95rem;
+}
+
+.modal-meta-item.characters {
+  color: #666 !important;
+  background: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  padding: 8px 20px;
+  border-radius: 25px;
+  margin-top: 1.5rem;
+}
+
+/* Mobil Uyum */
+@media (max-width: 480px) {
+  .modal-episode-info h2 {
+    font-size: 1.4rem;
+  }
+  
+  .modal-meta-item {
+    font-size: 0.95rem;
+    flex-wrap: wrap;
+  }
+  
+  .modal-meta-item i {
+    font-size: 1.1rem;
+  }
+  
+  .modal-meta-item.season {
+    font-size: 1rem;
+  }
+  
+  .modal-meta-item.characters {
+    font-size: 0.85rem;
+    padding: 6px 15px;
+  }
+}
+
+/* İkon renkleri */
+.modal-meta-item.season i {
+  color: #2c3e50;
+}
+
+.modal-meta-item.date i {
+  color: #424242;
+}
+
+.modal-meta-item.characters i {
+  color: #666;
 }

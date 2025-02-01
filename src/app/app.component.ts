@@ -399,4 +399,17 @@ export class AppComponent {
     const id = characterUrl.split('/').pop();
     return `https://rickandmortyapi.com/api/character/avatar/${id}.jpeg`;
   }
+
+  formatEpisode(episodeCode: string): string {
+    const matches = episodeCode.match(/S(\d+)E(\d+)/);
+    return matches ? `Season ${parseInt(matches[1])} • Episode ${parseInt(matches[2])}` : episodeCode;
+  }
+
+  formatAirDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString('en-US', { 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    });
+  }
 }
