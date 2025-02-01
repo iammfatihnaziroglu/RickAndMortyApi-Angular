@@ -329,11 +329,12 @@
 @media (max-width: 768px) {
   .details-grid {
     flex-direction: row;
+    align-items: center;
   }
   
   .details-grid div {
     width: 100%;
-    min-width: auto;
+    min-width: 120px;
   }
 }
 
