@@ -202,6 +202,15 @@
   margin: 0 auto;
 }
 
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+
 @keyframes modalEnter {
   from {
     transform: translateY(20px);
@@ -257,6 +266,12 @@
     border-radius: 50%;
     border-width: 3px;
     margin-bottom: 1rem;
+  }
+
+  .modal-content {
+    width: 95%;
+    transform: translate(-50%, -50%) scale(0.95);
+    -webkit-transform: translate(-50%, -50%) scale(0.95);
   }
 }
 
@@ -445,6 +460,11 @@
   margin: 1rem 0;
   font-size: 1.1rem;
   text-transform: capitalize;
+  margin: 0;
+  width: 100%;
+  max-width: 300px;
+  justify-content: center;
+  -webkit-justify-content: center;
 }
 
 .detail-item i {
@@ -947,7 +967,28 @@
     grid-template-columns: repeat(5, 1fr);
     gap: 15px;
   }
-
+  
+  .character-card-mini {
+    border-width: 1.5px;
+    aspect-ratio: 2/3;
+  }
+  
+  .character-card-mini img {
+    object-position: center 20%;
+  }
+  
+  .character-name-overlay {
+    font-size: 0.75rem;
+    padding: 6px;
+  }
+  
+  .modal-episode-info h2 {
+    font-size: 1.5rem;
+  }
+  
+  .modal-meta-item {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -975,3 +1016,4 @@
     margin: 0 auto;
   }
 }
+
