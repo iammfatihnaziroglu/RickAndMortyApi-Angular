@@ -202,6 +202,7 @@
   overflow-y: auto;
   width: 90%;
   max-width: 600px;
+  margin: 0 auto;
 }
 
 @keyframes modalEnter {
@@ -281,6 +282,7 @@
   .modal-content {
     width: 90%;
     padding: 1rem;
+    margin: 0 auto;
   }
 
   .modal-image {
@@ -328,18 +330,6 @@
   }
 }
 
-
-@media (max-width: 768px) {
-  .details-grid {
-    flex-direction: row;
-    align-items: center;
-  }
-  
-  .details-grid div {
-    width: 100%;
-    min-width: 120px;
-  }
-}
 
 .location-grid {
   display: grid;
@@ -421,6 +411,16 @@
     margin: 1rem;
     padding: 1rem;
   }
+
+  .details-grid {
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .details-grid div {
+    width: 100%;
+    min-width: 120px;
+  }
 }
 
 
@@ -484,10 +484,12 @@
   }
 
   .detail-item {
-    justify-content: flex-start;
     text-align: left;
     max-width: 100%;
     padding: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-self: center;
   }
 
   .detail-label {
@@ -902,6 +904,9 @@
     font-size: 1rem;
     max-width: 250px;
     padding: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-self: center;
   }
   
   .detail-item i {
@@ -950,6 +955,7 @@
   .modal-content {
     max-width: 80vw;
     padding: 1rem;
+    margin: 0 auto;
   }
   
   .character-grid-mini {
@@ -963,15 +969,14 @@
   .modal-content {
     max-width: 95vw;
     padding: 1rem;
+    margin: 0 auto;
   }
   
   .character-grid-mini {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
-}
 
-@media (max-width: 768px) {
   .character-grid {
     display: flex;
     flex-direction: column;
