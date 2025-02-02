@@ -187,7 +187,6 @@
 
 .modal-content {
   background: white;
-  padding: 2rem;
   border-radius: 16px;
   max-width: 600px;
   width: 70%;
@@ -463,8 +462,6 @@
   margin: 0;
   width: 100%;
   max-width: 300px;
-  justify-content: center;
-  -webkit-justify-content: center;
 }
 
 .detail-item i {
