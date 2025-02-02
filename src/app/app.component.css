@@ -440,7 +440,7 @@
 .modal-header {
   border-bottom: 2px solid #a6b42156;
   border-radius: 25%;
-  padding-bottom: 1rem;
+  padding-bottom: 0rem;
   margin-bottom: 1.5rem;
 }
 
@@ -464,14 +464,35 @@
 }
 
 @media (max-width: 768px) {
-  .modal-content {
-    padding: 1.5rem;
-  }
-  
-  .detail-item {
-    font-size: 1rem;
+  .modal-backdrop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
   }
 
+  .modal-content {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    transform: none;
+  }
+
+  .modal-header h2 {
+    text-align: center;
+    font-size: 1.4rem;
+  }
+
+  .detail-item {
+    justify-content: flex-start;
+    text-align: left;
+    max-width: 100%;
+    padding: 0.8rem;
+  }
+
+  .detail-label {
+    min-width: 80px;
+  }
 
   .filters-container {
     margin: 1rem;
