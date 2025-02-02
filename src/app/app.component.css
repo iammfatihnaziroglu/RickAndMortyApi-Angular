@@ -68,7 +68,6 @@
   color: #10767e;
 }
 
-
 .no-results {
   text-align: center;
   padding: 2rem;
@@ -88,7 +87,6 @@
   color: #666;
   line-height: 1.6;
 }
-
 
 .pagination {
   display: flex;
@@ -131,7 +129,6 @@
   color: #2c3e50;
   font-weight: 600;
 }
-
 
 @media (max-width: 480px) {
   .pagination {
@@ -253,7 +250,6 @@
   }
 }
 
-
 @media (max-width: 768px) {
   .modal-image {
     width: 200px;
@@ -329,7 +325,6 @@
     padding: 0.6rem;
   }
 }
-
 
 .location-grid {
   display: grid;
@@ -575,7 +570,6 @@
   }
 }
 
-
 .episode-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -682,7 +676,6 @@
   }
 }
 
-
 .character-list {
   max-height: 400px;
   overflow-y: auto;
@@ -697,7 +690,6 @@
   flex-direction: row;
 }
 
-
 .character-list::-webkit-scrollbar {
   width: 8px;
 }
@@ -711,7 +703,6 @@
   background: #1e1e1e;
   border-radius: 5px;
 }
-
 
 .character-grid-mini {
   display: grid;
@@ -748,7 +739,6 @@
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   text-align: center;
 }
-
 
 @media (max-width: 480px) {
   .character-grid-mini {
@@ -819,7 +809,6 @@
   margin-top: 1.5rem;
 }
 
-
 @media (max-width: 480px) {
   .modal-episode-info h2 {
     font-size: 1.4rem;
@@ -843,7 +832,6 @@
     padding: 6px 15px;
   }
 }
-
 
 .modal-meta-item.season i {
   color: #2c3e50;
@@ -898,7 +886,6 @@
   color: #34495e;
 }
 
-
 @media (max-width: 480px) {
   .detail-item {
     font-size: 1rem;
@@ -919,7 +906,6 @@
   position: relative;
   min-height: 300px;
 }
-
 
 .loading-overlay,
 .portal-container,
@@ -949,7 +935,6 @@
   50% { transform: scale(1.1); opacity: 1; }
   100% { transform: scale(0.95); opacity: 0.8; }
 }
-
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .modal-content {
